@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Interactiva DOM &amp; BOM - Aplicaciones Web 1</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Sidebar -->
+  <div id="sidebar">
+    <h1>Aplicaciones Web 1</h1>
+    <p>Plataforma de Demostración del DOM &amp; BOM</p>
+
+    <div class="menu-group">
+      <div class="menu-title">Estructura de la Clase</div>
+      <div class="menu-item active" data-section="0">Plan Didáctico (Parte 1 y 2)</div>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-title">Parte 1: BOM y Selección</div>
+      <div class="menu-item" data-section="1">1. Window Object</div>
+      <div class="menu-item" data-section="2">2. Window Location</div>
+      <div class="menu-item" data-section="3">3. Window History</div>
+      <div class="menu-item" data-section="4">4. Window Navigator</div>
+      <div class="menu-item" data-section="5">5. Window Screen</div>
+      <div class="menu-item" data-section="6">6. Document Object</div>
+      <div class="menu-item" data-section="7">7. Element Object</div>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-title">Parte 2: Atributos y Eventos</div>
+      <div class="menu-item" data-section="8">8. HTMLCollection vs NodeList</div>
+      <div class="menu-item" data-section="9">9. Attr &amp; NamedNodeMap</div>
+      <div class="menu-item" data-section="10">10. Style Object</div>
+      <div class="menu-item" data-section="11">11. Event Object</div>
+    </div>
+  </div>
+
+  <!-- Main Content Workspace -->
+  <div id="workspace">
+
+    <!-- View 0: Syllabus Plan -->
+    <div class="card active" id="sec-0">
+      <h2>Plan de Clase: Document Object Model (DOM)</h2>
+      <p class="card-desc">Guía didáctica organizada en dos sesiones de 2 horas para abarcar de forma integral el ecosistema del navegador y la manipulación del árbol de documentos.</p>
+
+      <div class="explanation" style="background:#f8fafc; border-color:#0f172a; color:#1e293b;">
+        <h3 style="color:#0284c7; margin-bottom:10px;">Parte 1: Jerarquía del Navegador, Selección y Estructura</h3>
+        <ul style="margin-left: 20px; line-height: 1.8;">
+          <li><strong>El Entorno del Navegador:</strong> Objeto global <code>window</code> y sus subobjetos integrados (<code>document</code>, <code>location</code>, <code>history</code>, <code>navigator</code>, <code>screen</code>).</li>
+          <li><strong>Raíz del Documento:</strong> Objeto <code>document</code> y árbol de nodos HTML.</li>
+          <li><strong>Selección de Elementos:</strong> <code>getElementById()</code>, <code>getElementsByClassName()</code>, <code>getElementsByTagName()</code>, <code>querySelector()</code> y <code>querySelectorAll()</code>.</li>
+          <li><strong>Modificación de Nodos:</strong> Propiedades de contenido (<code>innerHTML</code>, <code>textContent</code>) y métodos de estructura (<code>createElement()</code>, <code>appendChild()</code>, <code>removeChild()</code>).</li>
+        </ul>
+
+        <h3 style="color:#0284c7; margin-top:20px; margin-bottom:10px;">Parte 2: Atributos, Estilos, Colecciones y Eventos</h3>
+        <ul style="margin-left: 20px; line-height: 1.8;">
+          <li><strong>Colecciones de Nodos:</strong> Diferencias entre <code>HTMLCollection</code> (colección viva) y <code>NodeList</code> (colección estática).</li>
+          <li><strong>Atributos y Clases:</strong> Objeto <code>Attr</code>, <code>NamedNodeMap</code> (<code>attributes</code>), métodos de atributo (<code>setAttribute()</code>, <code>getAttribute()</code>) y <code>classList</code>.</li>
+          <li><strong>Estilos CSS Dinámicos:</strong> Manipulación de <code>element.style</code>, métodos <code>setProperty()</code> y estilos calculados con <code>window.getComputedStyle()</code>.</li>
+          <li><strong>Manejo de Eventos:</strong> Escuchadores <code>addEventListener()</code>, jerarquía de <code>Event Object</code> (<code>MouseEvent</code>, <code>KeyboardEvent</code>) y control de flujo (<code>preventDefault()</code>, <code>stopPropagation()</code>).</li>
+        </ul>
+      </div>
+
+      <div style="text-align:center; margin-top:20px;">
+        <button class="btn" id="start-demo-btn" style="padding:12px 24px; font-size:1rem;">Iniciar Demostración Interactiva (Vista 1) &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 1: Window Object -->
+    <div class="card" id="sec-1">
+      <h2>1. Window Object</h2>
+      <p class="card-desc">Representa la ventana del navegador que contiene el documento. Es el objeto global en JavaScript ejecutable en el cliente.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-alert">window.alert()</button>
+        <button class="btn" id="btn-confirm">window.confirm()</button>
+        <button class="btn" id="btn-prompt">window.prompt()</button>
+        <button class="btn btn-secondary" id="btn-timer">setTimeout() [2s]</button>
+        <button class="btn btn-secondary" id="btn-dimensions">Ver Dimensiones</button>
+        <div id="out-window" class="target-box">El resultado de la interacción aparecerá aquí...</div>
+      </div>
+
+      <div class="code-box">// Métodos de interacción y temporizadores del objeto Window
+function runAlert() {
+  window.alert("¡Mensaje emergente enviado desde window.alert()!");
+}
+
+function runConfirm() {
+  let userChoice = window.confirm("¿Deseas confirmar la acción?");
+  document.getElementById("out-window").textContent = "window.confirm(): " + userChoice;
+}
+
+function runPrompt() {
+  let name = window.prompt("Escribe tu nombre:", "Estudiante");
+  document.getElementById("out-window").textContent = "window.prompt(): " + name;
+}
+
+function runTimer() {
+  document.getElementById("out-window").textContent = "Esperando 2 segundos...";
+  window.setTimeout(() => {
+    document.getElementById("out-window").textContent = "¡Ejecutado tras 2000ms mediante window.setTimeout()!";
+  }, 2000);
+}
+
+function getDimensions() {
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  document.getElementById("out-window").textContent = `Viewport: ${w}px de ancho x ${h}px de alto`;
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        El objeto <code>window</code> encapsula todas las funciones globales del navegador. Métodos como <code>alert()</code>, <code>confirm()</code> y <code>prompt()</code> detienen temporalmente la ejecución del hilo principal para interactuar con el usuario. Por su parte, <code>setTimeout()</code> permite programar la ejecución asíncrona de funciones tras un intervalo especificado en milisegundos.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 2: Window Location -->
+    <div class="card" id="sec-2">
+      <h2>2. Window Location Object</h2>
+      <p class="card-desc">Contiene información sobre la URL del documento actual y proporciona métodos para redirigir o recargar la página.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-inspect-location">Inspeccionar URL Actual</button>
+        <button class="btn btn-secondary" id="btn-reload">window.location.reload()</button>
+        <div id="out-location" class="target-box">Haz clic en inspeccionar para analizar las propiedades de la URL...</div>
+      </div>
+
+      <div class="code-box">// Propiedades de inspección de dirección URL
+function inspectLocation() {
+  const loc = window.location;
+  let info = `href: ${loc.href}\n` +
+             `protocol: ${loc.protocol}\n` +
+             `hostname: ${loc.hostname}\n` +
+             `pathname: ${loc.pathname}\n` +
+             `origin: ${loc.origin}`;
+  document.getElementById("out-location").style.whiteSpace = "pre-wrap";
+  document.getElementById("out-location").textContent = info;
+}
+
+function reloadPage() {
+  window.location.reload();
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        <code>window.location</code> permite desglosar la dirección web en sus componentes clave: <code>protocol</code> (http/https), <code>hostname</code> (dominio) y <code>pathname</code> (ruta del recurso). Además, mediante métodos como <code>assign()</code> o <code>replace()</code> podemos redirigir al usuario a una nueva página, mientras que <code>reload()</code> actualiza la sesión actual.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 3: Window History -->
+    <div class="card" id="sec-3">
+      <h2>3. Window History Object</h2>
+      <p class="card-desc">Proporciona acceso al historial de navegación de la sesión del navegador en la pestaña actual.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-history-len">Ver Total de Páginas en Historial</button>
+        <button class="btn btn-secondary" id="btn-history-back">window.history.back()</button>
+        <div id="out-history" class="target-box">Presiona para consultar la longitud del historial...</div>
+      </div>
+
+      <div class="code-box">// Propiedad length y navegación en el historial
+function getHistoryLength() {
+  let total = window.history.length;
+  document.getElementById("out-history").textContent = "Páginas visitadas en la sesión (history.length): " + total;
+}
+
+function historyBack() {
+  window.history.back();
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        El objeto <code>history</code> mantiene el registro de URLs visitadas durante la sesión. Su propiedad <code>length</code> devuelve el número total de entradas guardadas. Métodos como <code>back()</code>, <code>forward()</code> y <code>go(n)</code> permiten desplazar programáticamente la navegación sin requerir intervención directa en la interfaz del navegador.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 4: Window Navigator -->
+    <div class="card" id="sec-4">
+      <h2>4. Window Navigator Object</h2>
+      <p class="card-desc">Contiene información detallada sobre la aplicación del navegador y las capacidades del cliente.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-navigator">Consultar Datos del Navegador</button>
+        <div id="out-navigator" class="target-box">Resultado de la consulta del cliente...</div>
+      </div>
+
+      <div class="code-box">// Detección de características del navegador
+function inspectNavigator() {
+  const nav = window.navigator;
+  let details = `Idioma (language): ${nav.language}\n` +
+                `En línea (onLine): ${nav.onLine}\n` +
+                `Cookies activas (cookieEnabled): ${nav.cookieEnabled}\n` +
+                `User Agent: ${nav.userAgent}`;
+  document.getElementById("out-navigator").style.whiteSpace = "pre-wrap";
+  document.getElementById("out-navigator").textContent = details;
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        <code>window.navigator</code> permite adaptar la aplicación según el entorno del usuario. Propiedades como <code>language</code> ayudan en la internacionalización, <code>onLine</code> detecta el estado de conexión a Internet y <code>cookieEnabled</code> verifica la disponibilidad del almacenamiento local de cookies.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 5: Window Screen -->
+    <div class="card" id="sec-5">
+      <h2>5. Window Screen Object</h2>
+      <p class="card-desc">Proporciona especificaciones sobre el monitor o pantalla física del usuario.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-screen">Obtener Métricas del Monitor</button>
+        <div id="out-screen" class="target-box">Esperando datos de la pantalla...</div>
+      </div>
+
+      <div class="code-box">// Lectura de dimensiones y resolución del monitor físico
+function inspectScreen() {
+  const sc = window.screen;
+  let data = `Resolución total (width x height): ${sc.width}px x ${sc.height}px\n` +
+             `Espacio disponible (availWidth x availHeight): ${sc.availWidth}px x ${sc.availHeight}px\n` +
+             `Profundidad de color (colorDepth): ${sc.colorDepth} bits`;
+  document.getElementById("out-screen").style.whiteSpace = "pre-wrap";
+  document.getElementById("out-screen").textContent = data;
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        A diferencia de <code>innerWidth/innerHeight</code> (que miden solo el área útil de la ventana), <code>window.screen</code> reporta la resolución completa del monitor. Propiedades como <code>availHeight</code> restan automáticamente la barra de tareas del sistema operativo.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 6: Document Object -->
+    <div class="card" id="sec-6">
+      <h2>6. HTML DOM Document Object</h2>
+      <p class="card-desc">El objeto Document es la raíz de la estructura HTML y la puerta de entrada para seleccionar y crear elementos en la página.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-selectors">querySelector()</button>
+        <button class="btn btn-secondary" id="btn-create">createElement() + appendChild()</button>
+        <div id="out-doc-target" class="target-box">Elemento Objetivo (#out-doc-target)</div>
+      </div>
+
+      <div class="code-box">// Selección de nodos y creación dinámica en el Documento
+function demoSelectors() {
+  const target = document.querySelector("#out-doc-target");
+  target.style.backgroundColor = "#bbf7d0";
+  target.textContent = "¡Seleccionado con document.querySelector()!";
+}
+
+function demoCreate() {
+  const newDiv = document.createElement("div");
+  const newText = document.createTextNode("Nuevo párrafo dinámico agregado al contenedor.");
+  newDiv.appendChild(newText);
+  newDiv.style.marginTop = "8px";
+  newDiv.style.color = "#0284c7";
+  document.getElementById("sec-6").querySelector(".playground").appendChild(newDiv);
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        <code>document</code> representa el documento HTML cargado en la ventana. Métodos como <code>querySelector()</code> y <code>querySelectorAll()</code> permiten localizar nodos mediante selectores CSS modernos. Asimismo, <code>createElement()</code> y <code>appendChild()</code> permiten construir elementos e insertarlos dinámicamente en el árbol de nodos.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 7: Element Object -->
+    <div class="card" id="sec-7">
+      <h2>7. HTML DOM Element Object</h2>
+      <p class="card-desc">Representa una etiqueta HTML individual (como div, p, a). Permite modificar su contenido y navegar entre sus nodos parientes o hijos.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button class="btn" id="btn-innerhtml">innerHTML</button>
+        <button class="btn" id="btn-textcontent">textContent</button>
+        <button class="btn btn-secondary" id="btn-tree">parentNode &amp; children</button>
+        <div id="element-demo-box" class="target-box"><span>Texto inicial dentro del contenedor</span></div>
+      </div>
+
+      <div class="code-box">// Modificación de propiedades de contenido y navegación de jerarquía
+function modifyInnerHTML() {
+  const box = document.getElementById("element-demo-box");
+  box.innerHTML = "<strong>Texto en negrita</strong> e HTML insertado mediante <em>innerHTML</em>";
+}
+
+function modifyTextContent() {
+  const box = document.getElementById("element-demo-box");
+  box.textContent = "Texto plano seguro insertado mediante textContent (elimina etiquetas HTML)";
+}
+
+function navigateTree() {
+  const box = document.getElementById("element-demo-box");
+  const parentTag = box.parentNode.tagName;
+  const childCount = box.children.length;
+  alert(`Elemento Padre: ${parentTag} | Cantidad de Elementos Hijos: ${childCount}`);
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        El objeto <code>Element</code> representa nodos del tipo etiqueta HTML. <code>innerHTML</code> interpreta etiquetas dentro del string asignado, mientras que <code>textContent</code> lo procesa como texto plano. Propiedades de navegación como <code>parentNode</code>, <code>children</code>, <code>firstElementChild</code> y <code>nextElementSibling</code> permiten recorrer el árbol del DOM en cualquier dirección.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 8: HTMLCollection vs NodeList -->
+    <div class="card" id="sec-8">
+      <h2>8. DOM HTMLCollection Object vs NodeList</h2>
+      <p class="card-desc">Colecciones de elementos retornadas por el DOM. Difieren en su comportamiento dinámico (vivo) y los métodos que ofrecen.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <ul id="sample-list" style="margin-left:20px; margin-bottom:10px;">
+          <li class="item-list">Elemento 1</li>
+          <li class="item-list">Elemento 2</li>
+        </ul>
+        <button class="btn" id="btn-htmlcollection">getElementsByClassName() [HTMLCollection]</button>
+        <button class="btn btn-secondary" id="btn-nodelist">querySelectorAll() [NodeList]</button>
+        <div id="out-collections" class="target-box">Resultados del análisis de colecciones...</div>
+      </div>
+
+      <div class="code-box">// Comparación entre HTMLCollection (Colección Viva) y NodeList (Estática)
+function demoHTMLCollection() {
+  const collection = document.getElementsByClassName("item-list");
+  let info = `HTMLCollection - Longitud: ${collection.length}\n` +
+             `Elemento en índice 0 (item(0)): ${collection.item(0).textContent}`;
+  document.getElementById("out-collections").style.whiteSpace = "pre-wrap";
+  document.getElementById("out-collections").textContent = info;
+}
+
+function demoNodeList() {
+  const nodeList = document.querySelectorAll(".item-list");
+  let itemsText = [];
+  nodeList.forEach((node, index) => {
+    itemsText.push(`[${index}]: ${node.textContent}`);
+  });
+  document.getElementById("out-collections").style.whiteSpace = "pre-wrap";
+  document.getElementById("out-collections").textContent = "NodeList iterada con forEach:\n" + itemsText.join("\n");
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        Una <code>HTMLCollection</code> se actualiza automáticamente si se agregan o eliminan elementos del DOM ("colección viva"), pero solo acepta elementos HTML. Una <code>NodeList</code> (como la retornada por <code>querySelectorAll()</code>) suele ser estática y permite utilizar directamente el método <code>forEach()</code> para iterar sus elementos.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 9: Attr & NamedNodeMap -->
+    <div class="card" id="sec-9">
+      <h2>9. HTML DOM Attr Object &amp; classList</h2>
+      <p class="card-desc">Los atributos de un elemento se almacenan en una colección llamada NamedNodeMap. Además, classList facilita la gestión de clases CSS.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <div id="attr-target-box" class="target-box" data-custom="valor-ejemplo">Caja de prueba para atributos y clases</div>
+        <br>
+        <button class="btn" id="btn-attributes">attributes (NamedNodeMap)</button>
+        <button class="btn" id="btn-setattr">setAttribute('data-estado')</button>
+        <button class="btn btn-secondary" id="btn-classlist">classList.toggle('resaltado')</button>
+      </div>
+
+      <div class="code-box">// Lectura y modificación de atributos HTML y clases CSS
+function demoAttributes() {
+  const el = document.getElementById("attr-target-box");
+  const attrMap = el.attributes; // Retorna NamedNodeMap de objetos Attr
+  let list = [];
+  for (let i = 0; i < attrMap.length; i++) {
+    let attrObj = attrMap.item(i);
+    list.push(`${attrObj.name} = "${attrObj.value}"`);
+  }
+  alert("NamedNodeMap (Attributes):\n" + list.join("\n"));
+}
+
+function demoSetAttribute() {
+  const el = document.getElementById("attr-target-box");
+  el.setAttribute("data-estado", "activo");
+  alert("Atributo asignado: data-estado=" + el.getAttribute("data-estado"));
+}
+
+function demoClassList() {
+  const el = document.getElementById("attr-target-box");
+  el.classList.toggle("resaltado");
+  if (el.classList.contains("resaltado")) {
+    el.style.border = "2px solid #ef4444";
+    el.style.backgroundColor = "#fef2f2";
+  } else {
+    el.style.border = "none";
+    el.style.backgroundColor = "#e2e8f0";
+  }
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        Cada atributo HTML es representable como un objeto <code>Attr</code> con propiedades <code>name</code> y <code>value</code>. La colección <code>attributes</code> de un elemento devuelve un <code>NamedNodeMap</code>. Para modificar atributos se recomiendan <code>setAttribute()</code> y <code>getAttribute()</code>, mientras que para manipular clases CSS de forma limpia se utiliza <code>classList</code> con sus métodos <code>add()</code>, <code>remove()</code>, <code>toggle()</code> y <code>contains()</code>.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 10: Style Object -->
+    <div class="card" id="sec-10">
+      <h2>10. HTML DOM Style Object</h2>
+      <p class="card-desc">Representa los estilos en línea de un elemento mediante el objeto CSSStyleDeclaration.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <div id="style-target-box" class="target-box">Caja de Pruebas de Estilos CSS</div>
+        <br>
+        <button class="btn" id="btn-directstyle">element.style.backgroundColor</button>
+        <button class="btn" id="btn-setproperty">setProperty()</button>
+        <button class="btn btn-secondary" id="btn-computed">window.getComputedStyle()</button>
+      </div>
+
+      <div class="code-box">// Modificación de estilos CSS mediante el Style Object
+function changeDirectStyle() {
+  const box = document.getElementById("style-target-box");
+  box.style.backgroundColor = "#38bdf8";
+  box.style.color = "#0f172a";
+  box.style.fontWeight = "bold";
+}
+
+function demoSetProperty() {
+  const box = document.getElementById("style-target-box");
+  box.style.setProperty("border", "3px dashed #0284c7");
+  box.style.setProperty("padding", "20px");
+}
+
+function demoGetComputed() {
+  const box = document.getElementById("style-target-box");
+  const computed = window.getComputedStyle(box);
+  alert(`Color final computado: ${computed.getPropertyValue("background-color")}\nAncho: ${computed.getPropertyValue("width")}`);
+}</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        Acceder a <code>element.style</code> permite escribir reglas CSS directamente en el atributo <code>style</code> del elemento en línea. Sin embargo, para leer los estilos finales calculados que provienen de hojas de estilo externas (CSS), se debe usar <code>window.getComputedStyle(element)</code>.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+    <!-- View 11: Event Object -->
+    <div class="card" id="sec-11">
+      <h2>11. HTML DOM Event Object &amp; Event Handling</h2>
+      <p class="card-desc">Los eventos permiten ejecutar código JavaScript en respuesta a acciones del usuario. Todas las clases de eventos heredan del objeto base Event.</p>
+
+      <div class="playground">
+        <div class="playground-title">Área de Pruebas Interactiva</div>
+        <button id="event-demo-btn" class="btn">Haz Clic o Pasa el Mouse</button>
+        <a id="link-demo" href="https://www.w3schools.com" target="_blank" style="margin-left:15px; color:#0284c7;">Enlace con preventDefault()</a>
+        <div id="out-event" class="target-box">Los datos del objeto Event capturado aparecerán aquí...</div>
+      </div>
+
+      <div class="code-box">// Asignación de escuchadores y análisis del objeto Event
+const btn = document.getElementById("event-demo-btn");
+const link = document.getElementById("link-demo");
+const out = document.getElementById("out-event");
+
+btn.addEventListener("click", function(event) {
+  let details = `Tipo de Evento (type): ${event.type}\n` +
+                `Elemento Emisor (target): ${event.target.tagName}\n` +
+                `Coordenadas del Clic (clientX, clientY): ${event.clientX}px, ${event.clientY}px`;
+  out.style.whiteSpace = "pre-wrap";
+  out.textContent = details;
+});
+
+link.addEventListener("click", function(event) {
+  event.preventDefault();
+  alert("¡evento.preventDefault() ejecutado! Se bloqueó la navegación predeterminada del enlace.");
+});</div>
+
+      <div class="explanation">
+        <strong>Explicación Didáctica:</strong><br>
+        Mediante <code>addEventListener()</code> se registran funciones escuchadoras. Cuando ocurre la acción, el navegador instancia automáticamente un objeto derivado de <code>Event</code> (por ejemplo, <code>MouseEvent</code> para clics o <code>KeyboardEvent</code> para teclas). Métodos esenciales como <code>preventDefault()</code> anulan la acción por defecto del navegador (como el envío de formularios o saltos de hipervínculos) y <code>stopPropagation()</code> detiene la burbuja de propagación en la jerarquía del DOM.
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-prev>&larr; Atrás</button>
+        <button class="nav-btn" data-next disabled>Siguiente &rarr;</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./js/script.js"></script>
+</body>
+</html>
